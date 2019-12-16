@@ -1,19 +1,24 @@
-var http = require('http');
+// express setup
+var express = require('express');
+var app = express();
+var port = 8080;
+app.set('view engine', 'pug')
+
+// mysql setup
 var mysql = require('mysql');
-
-http.createServer(function (request, response) {
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.end('Hello World\n');
-}).listen(8080);
-
 var con = mysql.createConnection({
     host: "localhost",
     user: "node"
 });
-  
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected to DB");
 });
 
-console.log('Server started');
+// app route: /
+app.get('/', function (req, res) {
+    res.render('index', { title: 'Hey', message: 'Hello there!' });
+});
+
+// start app
+app.listen(port, () => console.log(`Node app listening on port ${port}!`));
