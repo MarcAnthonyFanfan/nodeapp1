@@ -12,5 +12,4 @@ CREATE TABLE IF NOT EXISTS `posts` (
 	  `body` varchar(255) NOT NULL,
 	  PRIMARY KEY (`id`)
 );
-CREATE USER IF NOT EXISTS 'node'@'localhost';
-GRANT ALL ON `nodeapp`.* TO 'node'@'localhost';
+GRANT ALL ON `nodeapp`.* TO 'node'@'localhost' IDENTIFIED BY '';
