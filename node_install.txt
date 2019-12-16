@@ -1,6 +1,7 @@
 apt-get install python-software-properties
 apt-add-repository ppa:chris-lea/node.js
 apt-get update
-apt-get install nodejs
-node -v
-npm -v
+apt-get install nodejs git
+git clone https://github.com/MarcAnthonyFanfan/neapp1.git
+cd ~/nodeapp1
+node app.js
