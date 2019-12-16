@@ -8,7 +8,8 @@ app.set('view engine', 'pug')
 var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "localhost",
-    user: "node"
+    user: "node",
+    database: "nodeapp"
 });
 con.connect(function(err) {
     if (err) throw err;
@@ -17,7 +18,13 @@ con.connect(function(err) {
 
 // app route: /
 app.get('/', function (req, res) {
-    res.render('index', { title: 'Hey', message: 'Hello there!' });
+    con.query("SELECT * FROM users", function (err, result, fields) {
+        // if any error while executing above query, throw error
+        if (err) throw err;
+        // if there is no error, you have the result
+        console.log(result)
+        res.render('index', { title: "Node.js", message: "Hello, " + result[0].username });
+    });
 });
 
 // start app
