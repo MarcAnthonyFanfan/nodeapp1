@@ -8,7 +8,7 @@ http.createServer(function (request, response) {
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: "node",
     password: ""
 });
   
