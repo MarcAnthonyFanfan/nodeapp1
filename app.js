@@ -8,13 +8,12 @@ http.createServer(function (request, response) {
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "node",
-    password: ""
+    user: "node"
 });
   
 con.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
+    console.log("Connected to DB");
 });
 
 console.log('Server started');
