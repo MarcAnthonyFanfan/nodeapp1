@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 CREATE TABLE IF NOT EXISTS `sessions` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`user_id` int(11) NOT NULL,
-	`ip_address` int(4) NOT NULL,
-	`key` varchar(32) NOT NULL,
+	`session_key` varchar(32) NOT NULL,
 	PRIMARY KEY (`id`)
 );
 GRANT ALL ON `nodeapp`.* TO 'node'@'localhost' IDENTIFIED BY '';
