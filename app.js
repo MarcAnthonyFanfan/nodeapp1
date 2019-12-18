@@ -81,7 +81,7 @@ app.post('/login', function(req, res) {
             con.query(`DELETE FROM sessions WHERE user_id='${result[0].id}'`, function(err, result, fields) {
                 if(err) throw err;
             });
-            session_key = sha256(username.toLowerCase()+password+ip).substring(0, 32);
+            var session_key = sha256(username.toLowerCase()+password+ip).substring(0, 32);
             con.query(`INSERT INTO sessions(user_id, session_key) VALUES('${result[0].id}', '${session_key}')`, function(err, result, fields) {
                 if(err) throw err;
                 res.cookie('session_key' , session_key);
@@ -110,7 +110,7 @@ app.post('/signup', function(req, res) {
         con.query(`INSERT INTO users(username, password) VALUES('${username}', '${secure_password}')`, function(err, result, fields) {
             if(err) throw err;
             con.query(`SELECT * FROM users WHERE username='${username}' AND password='${secure_password}'`, function(err, result, fields) {
-                session_key = sha256(username.toLowerCase()+password+ip).substring(0, 32);
+                var session_key = sha256(username.toLowerCase()+password+ip).substring(0, 32);
                 con.query(`INSERT INTO sessions(user_id, session_key) VALUES('${result[0].id}', '${session_key}')`, function(err, result, fields) {
                     if(err) throw err;
                     res.cookie('session_key' , session_key);
