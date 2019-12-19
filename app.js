@@ -1,3 +1,7 @@
+// toggle debug output
+const DEBUG_MYSQL_QUERIES = false;
+const DEBUG_SESSION_KEYS = false;
+const DEBUG_BAD_LOGIN_ATTEMPTS = false;
 // express setup
 var express = require('express');
 var cookieParser = require('cookie-parser');
@@ -25,21 +29,25 @@ app.get('/', function(req, res) {
     var ip = req.connection.remoteAddress;
     console.log(`ip=${ip} method=GET route=/`);
     if(req.cookies.session_key) {
-        con.query(`SELECT * FROM sessions WHERE session_key='${req.cookies.session_key}'`, function(err, result, fields) {
+        var mysql_query = `SELECT * FROM sessions WHERE session_key=${mysql.escape(req.cookies.session_key)}`;
+        if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+        con.query(mysql_query, function(err, result, fields) {
             if(err) throw err;
             if(result.length == 0) {
-                console.log(`ip=${ip} event=BAD_SESSION_KEY session_key=${req.cookies.session_key} redirect=/logout`);
+                if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=BAD_SESSION_KEY session_key=${req.cookies.session_key} redirect=/logout`);
                 res.redirect('logout');
             }
             else {
-                con.query(`SELECT * FROM users WHERE id='${result[0].user_id}'`, function(err, result, fields) {
+                var mysql_query = `SELECT * FROM users WHERE id=${mysql.escape(result[0].user_id)}`;
+                if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+                con.query(mysql_query, function(err, result, fields) {
                     if(err) throw err;
                     if(result.length == 0) {
-                        console.log(`ip=${ip} event=BAD_SESSION_USER session_key=${req.cookies.session_key} redirect=/logout`);
+                        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=BAD_SESSION_USER session_key=${req.cookies.session_key} redirect=/logout`);
                         res.redirect('logout');
                     }
                     else {
-                        console.log(`ip=${ip} event=USER_AUTHENTICATED_WITH_SESSION_KEY username=${result[0].username} session_key=${req.cookies.session_key}`);
+                        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=USER_AUTHENTICATED_WITH_SESSION_KEY username=${result[0].username} session_key=${req.cookies.session_key}`);
                         res.render('index', { title: 'Node.js', message: 'Hello, ' + result[0].username });
                     }
                 })
@@ -47,7 +55,7 @@ app.get('/', function(req, res) {
         });
     }
     else {
-        console.log(`ip=${ip} event=NO_SESSION_KEY_FOUND redirect=/login`);
+        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=NO_SESSION_KEY_FOUND redirect=/login`);
         res.redirect('/login');
     }
 });
@@ -57,7 +65,7 @@ app.get('/login', function(req, res) {
     var ip = req.connection.remoteAddress;
     console.log(`ip=${ip} method=GET route=/login`);
     if(req.cookies.session_key) {
-        console.log(`ip=${ip} event=SESSION_KEY_FOUND redirect=/`);
+        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=SESSION_KEY_FOUND redirect=/`);
         res.redirect('/');
     }
     else {
@@ -70,23 +78,29 @@ app.post('/login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var secure_password = sha256(username.toLowerCase()+password).substring(0, 32);
-    con.query(`SELECT * FROM users WHERE username='${username}' AND password='${secure_password}'`, function(err, result, fields) {
+    var mysql_query = `SELECT * FROM users WHERE username=${mysql.escape(username)} AND password=${mysql.escape(secure_password)}`;
+    if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+    con.query(mysql_query, function(err, result, fields) {
         if(err) throw err;
-        var username_from_db = result[0].username;
         if(result.length == 0) {
-            console.log(`ip=${ip} event=BAD_LOGIN_ATTEMPT username=${username}`);
+            if(DEBUG_BAD_LOGIN_ATTEMPTS) console.log(`ip=${ip} event=BAD_LOGIN_ATTEMPT username=${username}`);
             res.render('login', { flash_message: 'Incorrect Username/Password', username: username, autofocus_password: 'autofocus' });
         }
         else if(result.length == 1) {
-            con.query(`DELETE FROM sessions WHERE user_id='${result[0].id}'`, function(err, result, fields) {
+            var username_from_db = result[0].username;
+            var mysql_query = `DELETE FROM sessions WHERE user_id=${mysql.escape(result[0].id)}`;
+            if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+            con.query(mysql_query, function(err, result, fields) {
                 if(err) throw err;
             });
             var session_key = sha256(username.toLowerCase()+password+ip).substring(0, 32);
-            con.query(`INSERT INTO sessions(user_id, session_key) VALUES('${result[0].id}', '${session_key}')`, function(err, result, fields) {
+            var mysql_query = `INSERT INTO sessions(user_id, session_key) VALUES(${mysql.escape(result[0].id)}, ${mysql.escape(session_key)})`;
+            if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+            con.query(mysql_query, function(err, result, fields) {
                 if(err) throw err;
                 res.cookie('session_key' , session_key);
                 // res.cookie('session_key' , session_key, { secure: true});
-                console.log(`ip=${ip} event=CREATED_NEW_USER_SESSION username=${username_from_db} session_key=${req.cookies.session_key} redirect=/`);
+                if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=CREATED_NEW_USER_SESSION username=${username_from_db} session_key=${req.cookies.session_key} redirect=/`);
                 res.redirect('/');
             });
         }
@@ -107,22 +121,27 @@ app.post('/signup', function(req, res) {
     var password_confirmation = req.body.password_confirmation;
     if(password == password_confirmation) {
         var secure_password = sha256(username.toLowerCase()+password).substring(0, 32);
-        con.query(`INSERT INTO users(username, password) VALUES('${username}', '${secure_password}')`, function(err, result, fields) {
+        var mysql_query = `INSERT INTO users(username, password) VALUES(${mysql.escape(username)}, ${mysql.escape(secure_password)})`;
+        if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+        con.query(mysql_query, function(err, result, fields) {
             if(err) throw err;
-            con.query(`SELECT * FROM users WHERE username='${username}' AND password='${secure_password}'`, function(err, result, fields) {
+            var mysql_query = `SELECT * FROM users WHERE username=${mysql.escape(username)} AND password=${mysql.escape(secure_password)}`;
+            if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+            con.query(mysql_query, function(err, result, fields) {
                 var session_key = sha256(username.toLowerCase()+password+ip).substring(0, 32);
-                con.query(`INSERT INTO sessions(user_id, session_key) VALUES('${result[0].id}', '${session_key}')`, function(err, result, fields) {
+                var mysql_query = `INSERT INTO sessions(user_id, session_key) VALUES(${mysql.escape(result[0].id)}, ${mysql.escape(session_key)})`;
+                if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+                con.query(mysql_query, function(err, result, fields) {
                     if(err) throw err;
                     res.cookie('session_key' , session_key);
                     // res.cookie('session_key' , session_key, { secure: true});
-                    console.log(`ip=${ip} event=CREATED_NEW_USER_SESSION username=${result[0].username} session_key=${req.cookies.session_key} redirect=/`);
+                    if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=CREATED_NEW_USER_SESSION username=${result[0].username} session_key=${req.cookies.session_key} redirect=/`);
                     res.redirect('/');
                 });
             });
         });
     }
     else {
-        console.log(`ip=${ip} event=PASSWORD_CONFIRMATION_MISMATCH`);
         res.render('signup', { flash_message: 'Password and Confirmation do not match', username: username, autofocus_password: 'autofocus' });
     }
 });
@@ -132,7 +151,7 @@ app.get('/logout', function(req, res) {
     var ip = req.connection.remoteAddress;
     console.log(`ip=${ip} method=GET route=/logout`);
     res.clearCookie('session_key');
-    console.log(`ip=${ip} event=CLEARED_SESSION_KEY_COOKIE session_key=${req.cookies.session_key} redirect=/`);
+    if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=CLEARED_SESSION_KEY_COOKIE session_key=${req.cookies.session_key} redirect=/`);
     res.redirect('/login');
 });
 
