@@ -1,1 +1,1 @@
-{"name":"hashicorp/precise64","version":"1.1.0","provider":"vmware_fusion","directory":"boxes/hashicorp-VAGRANTSLASH-precise64/1.1.0/vmware_fusion"}
+{"name":"hashicorp/bionic64","version":"1.0.282","provider":"vmware_desktop","directory":"boxes/hashicorp-VAGRANTSLASH-bionic64/1.0.282/vmware_desktop"}
