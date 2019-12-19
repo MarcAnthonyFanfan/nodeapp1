@@ -88,8 +88,8 @@ table, th, td {
 form button {
     color: #adadad;
     background-color: #68217a;
-    padding: 14px 20px;
-    margin: 8px 0;
+    padding: 6px 20px;
+    margin: 12px 0;
     border: none;
     cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
@@ -113,4 +113,8 @@ form button {
     padding: 5pt;
     text-align: center;
     border: 1px solid;
+}
+
+.new_post {
+    width: 100%;
 }
