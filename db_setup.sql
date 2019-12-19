@@ -19,4 +19,5 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 	`session_key` varchar(32) NOT NULL,
 	PRIMARY KEY (`id`)
 );
-GRANT ALL ON `nodeapp`.* TO 'node'@'localhost' IDENTIFIED BY '';
+CREATE USER IF NOT EXISTS 'node'@'localhost' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON nodeapp.* TO 'node'@'localhost';
