@@ -1,19 +1,26 @@
-form(method='POST' action='')
-    unless autofocus_password
-        - autofocus_username = 'autofocus'
-    if flash_message
-        p= flash_message
-    label(for='username')
-        b Username
-    input(id='username_input' type='text' name='username' value=username required autofocus= autofocus_username)
-    br
-    label(for='password')
-        b Password
-    input(id='password_input' type='password' name='password' required autofocus= autofocus_password)
-    br
-    label(for='password_confirmation')
-        b Confirm Password
-    input(id='password_confirmation_input' type='password' name='password_confirmation' required)
-    br
-    button(id="submit_button" type="submit") Submit
-a(href="/login") Login
+html
+	head
+		title Login
+		link(rel='stylesheet', href='/css/login.css')
+	body
+		form(method='POST' action='')
+			h1 Signup New User
+				.container
+					unless autofocus_password
+						- autofocus_username = 'autofocus'
+					label(for='username')
+						b Username
+					input(id='username_input' type='text' name='username' value=username required autofocus= autofocus_username)
+					label(for='password')
+						b Password
+					input(id='password_input' type='password' name='password' required autofocus= autofocus_password)
+					label(for='password_confirmation')
+						b Confirm Password
+					input(id='password_confirmation_input' type='password' name='password_confirmation' required)
+					if flash_message
+						.flashes
+							= flash_message
+					button(id='submit_button' type='submit') Submit
+					p.boxed_links
+						= "Existing User? "
+						a#login_link(href='/login') Login

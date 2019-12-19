@@ -8,8 +8,10 @@ var cookieParser = require('cookie-parser');
 var sha256 = require('js-sha256');
 var app = express();
 var port = 8080;
+var path=require('path');
 app.set('view engine', 'pug');
 app.use(express.urlencoded());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 // mysql setup
@@ -48,7 +50,43 @@ app.get('/', function(req, res) {
                     }
                     else {
                         if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=USER_AUTHENTICATED_WITH_SESSION_KEY username=${result[0].username} session_key=${req.cookies.session_key}`);
-                        res.render('index', { title: 'Node.js', message: 'Hello, ' + result[0].username });
+                        res.render('index', { user: result[0] });
+                    }
+                })
+            }
+        });
+    }
+    else {
+        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=NO_SESSION_KEY_FOUND redirect=/login`);
+        res.redirect('/login');
+    }
+});
+
+// app route: /profile
+app.get('/profile', function(req, res) {
+    var ip = req.connection.remoteAddress;
+    console.log(`ip=${ip} method=GET route=/profile`);
+    if(req.cookies.session_key) {
+        var mysql_query = `SELECT * FROM sessions WHERE session_key=${mysql.escape(req.cookies.session_key)}`;
+        if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+        con.query(mysql_query, function(err, result, fields) {
+            if(err) throw err;
+            if(result.length == 0) {
+                if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=BAD_SESSION_KEY session_key=${req.cookies.session_key} redirect=/logout`);
+                res.redirect('logout');
+            }
+            else {
+                var mysql_query = `SELECT * FROM users WHERE id=${mysql.escape(result[0].user_id)}`;
+                if(DEBUG_MYSQL_QUERIES) console.log(`ip=${ip} event=MYSQL_QUERY mysql_query=${mysql_query}`);
+                con.query(mysql_query, function(err, result, fields) {
+                    if(err) throw err;
+                    if(result.length == 0) {
+                        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=BAD_SESSION_USER session_key=${req.cookies.session_key} redirect=/logout`);
+                        res.redirect('logout');
+                    }
+                    else {
+                        if(DEBUG_SESSION_KEYS) console.log(`ip=${ip} event=USER_AUTHENTICATED_WITH_SESSION_KEY username=${result[0].username} session_key=${req.cookies.session_key}`);
+                        res.render('profile', { user: result[0] });
                     }
                 })
             }

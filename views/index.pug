@@ -1,6 +1,14 @@
 html
   head
-    title= title
+    title Posts
+    link(rel='stylesheet', href='/css/dashboard.css')
   body
-    h1= message
-  a(href="/logout") Logout
+    header
+      h1 Node.js Microposts
+      ul
+        li
+          a.active#home_link(href='/') Home
+        li
+          a#profile_link(href='/profile') Profile
+        li(style='float: right;')
+          a.logout_link(href='/logout') Logout
