@@ -37,5 +37,5 @@ end
 
 execute 'start node server' do
 	cwd '/home/vagrant/nodeapp1'
-	command 'pkill node; node app.js > ~/node.log 2>&1 &'
+	command 'pkill node; node app.js > /home/vagrant/node.log 2>&1 &'
 end
