@@ -25,7 +25,17 @@ execute 'npm install' do
 	command 'npm install'
 end
 
-execute 'sudo mysql < db_setup.sql' do
+execute 'run db_setup.sql' do
 	cwd '/home/vagrant/nodeapp1'
 	command 'sudo mysql < db_setup.sql'
+end
+
+execute 'set timezone' do
+	cwd '/home/vagrant/nodeapp1'
+	command 'sudo unlink /etc/localtime; sudo ln -s /usr/share/zoneinfo/America/New_York /etc/localtime'
+end
+
+execute 'start node server' do
+	cwd '/home/vagrant/nodeapp1'
+	command 'pkill node; node app.js > ~/node.log 2>&1 &'
 end
