@@ -52,7 +52,7 @@ def main():
     g_driver.find_element_by_id('password_confirmation_input').send_keys('incorrect_password')
     g_driver.find_element_by_id('submit_button').click()
     time.sleep(1)
-    test_comparison(g_driver.find_element_by_class_name('flashes'), 'Password and Confirmation do not match', 'Password confirmation check works')
+    test_comparison(g_driver.find_element_by_class_name('flashes').text, 'Password and Confirmation do not match', 'Password confirmation check works')
     # Test 3: Sign up a test user account
     g_total_tests += 1
     g_driver.find_element_by_id('password_input').send_keys(password)
