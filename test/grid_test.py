@@ -53,26 +53,26 @@ def main():
     g_driver.find_element_by_id('submit_button').click()
     time.sleep(1)
     test_comparison(g_driver.find_element_by_class_name('flashes').text, 'Password and Confirmation do not match', 'Password confirmation check works')
-    # Test 3: Sign up a test user account
+    # Test 4: Sign up a test user account
     g_total_tests += 1
     g_driver.find_element_by_id('password_input').send_keys(password)
-    g_driver.find_element_by_id('password_confirmation_input').send_keys('incorrect_password')
+    g_driver.find_element_by_id('password_confirmation_input').send_keys(password)
     g_driver.find_element_by_id('submit_button').click()
     time.sleep(1)
     test_comparison(g_driver.title, 'Feed', 'Created new user, auto logged in')
-    # Test 4: Log out
+    # Test 5: Log out
     g_total_tests += 1
     g_driver.get(app_route('/logout'))
     time.sleep(1)
     test_comparison(g_driver.title, 'Login', 'Redirected to /login route after logout')
-    # Test 5: Log in to existing test user account
+    # Test 6: Log in to existing test user account
     g_total_tests += 1
     g_driver.find_element_by_id('username_input').send_keys(username)
     g_driver.find_element_by_id('password_input').send_keys(password)
     g_driver.find_element_by_id('submit_button').click()
     time.sleep(1)
     test_comparison(g_driver.title, 'Feed', 'Logged into existing user')
-    # Test 6: Post 'Hello, world!'
+    # Test 7: Post 'Hello, world!'
     g_total_tests += 1
     g_driver.find_element_by_id('post_body_input').send_keys('Hello, world!')
     g_driver.find_element_by_id('submit_button').click()
