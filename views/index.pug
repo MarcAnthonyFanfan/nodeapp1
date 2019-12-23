@@ -26,9 +26,9 @@ html
 				= '/255 characters)'
 		if posts
 			each post in posts
-				section
+				section.post
 					h1
-						a(style='color: #adadad;' href='/users/' + post.username)= post.username
+						a.post_author(style='color: #adadad;' href='/users/' + post.username)= post.username
 						span(style='float: right;')
 							- var date = new Date(post.created_at)
 							- var hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
@@ -37,6 +37,6 @@ html
 							- var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
 							- var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()
 							= hours + ":" + minutes + am_pm + ' ' + (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear()
-					p= post.body
+					p.post_body= post.body
 script(type='text/javascript').
 	document.getElementById('post_body_input').onkeyup=function(){document.getElementById('character_count').innerHTML = this.value.length;};
