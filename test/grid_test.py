@@ -94,7 +94,7 @@ def app_route(route_string):
 def test_comparison(found, expected, test_details):
     global g_tests_ran, g_passed_tests, g_failed_tests
     g_tests_ran += 1
-    print('\nTest #' + str(g_tests_ran) + '\n' + str(type(found)).split(''')[1].capitalize() + ' Found:\t' + str(found) + '\n' + str(type(expected)).split(''')[1].capitalize() + ' Expected:\t' + str(expected))
+    print('\nTest #' + str(g_tests_ran) + '\n' + str(type(found)).split("'")[1].capitalize() + ' Found:\t' + str(found) + '\n' + str(type(expected)).split("'")[1].capitalize() + ' Expected:\t' + str(expected))
     if found == expected:
         g_passed_tests += 1
         print('[PASS] ' + test_details)
