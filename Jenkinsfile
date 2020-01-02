@@ -1,14 +1,18 @@
 pipeline {
   agent any
+  options {
+    skipDefaultCheckout true
+  }
   stages {
-    stage("Build") {
+    stage("Git Checkout") {
       when { 
         not { 
           branch "master"
         }
       }
       steps {
-        sh "echo ${BRANCH_NAME}"
+        sh "git checkout -f ${BRANCH_NAME}"
+        sh "hub pull-request --no-edit"
       }
     }
   }
