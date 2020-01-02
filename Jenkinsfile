@@ -1,7 +1,7 @@
 node {
   stage("Git Checkout") {
     steps {
-      sh 'echo ${BRANCH_NAME}'
+      git "https://github.com/MarcAnthonyFanfan/nodeapp1"
     }
   }
 }
