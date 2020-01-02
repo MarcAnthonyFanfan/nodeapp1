@@ -11,8 +11,7 @@ pipeline {
         }
       }
       steps {
-        sh "git checkout -f ${BRANCH_NAME}"
-        sh "echo git status"
+        sh "git clone --single-branch --branch ${BRANCH_NAME} https://github.com/github/hub.git"
         sh "hub pull-request --no-edit"
       }
     }
