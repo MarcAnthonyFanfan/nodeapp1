@@ -1,18 +1,15 @@
-node {
-  parameters {
-    string(name: "BRANCH_NAME", defaultValue: "", description: "Branch Name")
-  }
-  stage("Git Checkout") {
-    when {
-      not {
-        anyOf {
-            branch "master";
-            branch ""
+pipeline {
+  agent any
+  stages {
+    stage("Build") {
+      when { 
+        not { 
+          branch "master"
         }
       }
-    }
-    steps {
-      sh 'echo ${params.BRANCH_NAME}'
+      steps {
+        sh "echo ${BRANCH_NAME}"
+      }
     }
   }
 }
