@@ -12,7 +12,7 @@ pipeline {
           }
           else {
             rm -rf ./nodeapp1
-            git clone --single-branch --branch ${BRANCH_NAME} "https://github.com/MarcAnthonyFanfan/nodeapp1"
+            git clone --single-branch --branch ${BRANCH_NAME} https://github.com/MarcAnthonyFanfan/nodeapp1
             cd nodeapp1 && hub pull-request --no-edit
           }
         }
