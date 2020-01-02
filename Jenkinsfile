@@ -1,6 +1,6 @@
 node {
   parameters {
-    string( name: "BRANCH_NAME", defaultValue: "", description: "Branch Name")
+    string(name: "BRANCH_NAME", defaultValue: "", description: "Branch Name")
   }
   stage("Git Checkout") {
     when {
