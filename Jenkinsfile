@@ -1,9 +1,14 @@
 pipeline {
   agent any
   stages {
-    stage("Git Checkout") {
+    stage("Build") {
+      when { 
+        not { 
+          branch "master"
+        }
+      }
       steps {
-        git "https://github.com/MarcAnthonyFanfan/nodeapp1"
+        sh "echo ${BRANCH_NAME}"
       }
     }
   }
