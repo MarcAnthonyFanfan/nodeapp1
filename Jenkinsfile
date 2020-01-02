@@ -4,15 +4,15 @@ pipeline {
     skipDefaultCheckout true
   }
   stages {
-    stage("Git Checkout") {
-      when {
-        not {
-          anyOf {
-            branch "master";
-            branch pattern: "PR-\\d+", comparator: "REGEXP"
-          }
+    when {
+      not {
+        anyOf {
+          branch "master";
+          branch pattern: "PR-\\d+", comparator: "REGEXP"
         }
       }
+    }
+    stage("Git Checkout") {
       steps {
         sh "rm -rf ./nodeapp1"
         sh "git clone https://github.com/MarcAnthonyFanfan/nodeapp1"
