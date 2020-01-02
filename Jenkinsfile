@@ -6,7 +6,12 @@ pipeline {
   stages {
     stage("Git Checkout") {
       when {
-        expression { env.BRANCH_NAME != "master" && env.BRANCH_NAME != "PR-*" }
+        not {
+          anyOf {
+            branch "master";
+            branch pattern: "PR-\\d+", comparator: "REGEXP"
+          }
+        }
       }
       steps {
         sh "rm -rf ./nodeapp1"
