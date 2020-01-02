@@ -11,7 +11,7 @@ pipeline {
         }
       }
       steps {
-        sh "git clone --single-branch --branch ${BRANCH_NAME} https://github.com/github/hub.git"
+        sh "git clone --single-branch --branch ${BRANCH_NAME} https://github.com/MarcAnthonyFanfan/nodeapp1"
         sh "hub pull-request --no-edit"
       }
     }
