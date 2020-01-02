@@ -12,6 +12,7 @@ pipeline {
       }
       steps {
         sh "git checkout -f ${BRANCH_NAME}"
+        sh "echo git status"
         sh "hub pull-request --no-edit"
       }
     }
