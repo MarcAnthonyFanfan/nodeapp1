@@ -1,7 +1,9 @@
 node {
-  stage("Git Checkout") {
-    steps {
-      git "https://github.com/MarcAnthonyFanfan/nodeapp1"
+  stages {
+    stage("Git Checkout") {
+      steps {
+        git "https://github.com/MarcAnthonyFanfan/nodeapp1"
+      }
     }
   }
 }
