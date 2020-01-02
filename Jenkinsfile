@@ -1,5 +1,18 @@
 node {
+  parameters {
+    string( name: "BRANCH_NAME", defaultValue: "", description: "Branch Name")
+  }
   stage("Git Checkout") {
-    git "https://github.com/MarcAnthonyFanfan/nodeapp1"
+    when {
+      not {
+        anyOf {
+            branch "master";
+            branch ""
+        }
+      }
+    }
+    steps {
+      sh 'echo ${params.BRANCH_NAME}'
+    }
   }
 }
