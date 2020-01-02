@@ -9,6 +9,7 @@ pipeline {
       }
       steps {
         sh "echo ${BRANCH_NAME}"
+        sh "hub pull-request --no-edit"
       }
     }
   }
