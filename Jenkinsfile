@@ -7,7 +7,7 @@ pipeline {
     stage("Git Checkout") {
       when { 
         not { 
-          branch "master",
+          branch "master";
           branch "PR-*"
         }
       }
