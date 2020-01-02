@@ -14,7 +14,7 @@ pipeline {
         skipDefaultCheckout true
       }
       steps {
-        sh "git clone https://github.com/MarcAnthonyFanfan/nodeapp1 $(pwd)"
+        sh "git clone https://github.com/MarcAnthonyFanfan/nodeapp1 ."
         sh "git checkout ${BRANCH_NAME}"
         sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME}"
         cleanWs()
