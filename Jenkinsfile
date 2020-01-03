@@ -29,13 +29,13 @@ pipeline {
       }
       steps {
         // Testing
-        bash '''#!/bin/bash
-                if [[ $(git log -1 --pretty=%B | grep /pr) ]]
-                  hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt
-                  chmod +x ./create_issue.sh && ./create_issue.sh
-                else
-                  echo "No pull request made, commit message should contain /pr to auto create one."
-                fi
+        sh '''#!/bin/sh
+              if [[ $(git log -1 --pretty=%B | grep /pr) ]]
+                hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt
+                chmod +x ./create_issue.sh && ./create_issue.sh
+              else
+                echo "No pull request made, commit message should contain /pr to auto create one."
+              fi
         '''
       }
     }
