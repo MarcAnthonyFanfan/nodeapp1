@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage("Git Checkout Branch") {
+    stage("Git Checkout Branch (Head attached)") {
       when {
         not {
           anyOf {
@@ -18,7 +18,7 @@ pipeline {
       }
     }
     // to-do: add testing
-    stage("Create Pull Request") {
+    stage("Create Pull Request & Jira Issue") {
       when {
         not {
           anyOf {
