@@ -29,6 +29,7 @@ pipeline {
       }
       steps {
         sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME}"
+        sh ./create_issue.sh
       }
     }
   }
