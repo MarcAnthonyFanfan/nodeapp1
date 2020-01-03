@@ -28,6 +28,7 @@ pipeline {
         }
       }
       steps {
+        // Testing
         script {
           SHOULD_MAKE_PULL_REQUEST = sh (script: "git log -1 --pretty=%B | grep /pr", returnStdout: true)
         }
