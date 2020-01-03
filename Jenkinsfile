@@ -28,8 +28,8 @@ pipeline {
         }
       }
       steps {
-        sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
-        sh "chmod +x ./create_issue.sh && ./create_issue.sh"
+        sh "if [[ $(git log -1 --pretty=%B) == *'/pr'* ]]; then hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt; fi"
+        sh "if [[ $(git log -1 --pretty=%B) == *'/pr'* ]]; then chmod +x ./create_issue.sh && ./create_issue.sh; fi"
       }
     }
   }
