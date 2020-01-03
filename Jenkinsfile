@@ -28,7 +28,7 @@ pipeline {
         }
       }
       steps {
-        sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_u`rl.txt"
+        sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
         sh ./create_issue.sh
       }
     }
