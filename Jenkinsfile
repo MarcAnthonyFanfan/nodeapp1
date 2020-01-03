@@ -36,6 +36,7 @@ pipeline {
                 chmod +x ./create_issue.sh && ./create_issue.sh
               else
                 echo "No pull request made, commit message should contain /pr to auto create one."
+                echo $(git log -1 --pretty=%B | grep /pr)
               fi
         '''
       }
