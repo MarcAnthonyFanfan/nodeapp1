@@ -18,7 +18,7 @@ pipeline {
       }
     }
     // to-do: add testing
-    stage("Create Pull Request & Jira Issue") {
+    stage("Create Pull Request & Jira Issue (if [pr] is in commit message)") {
       when {
         not {
           anyOf {
