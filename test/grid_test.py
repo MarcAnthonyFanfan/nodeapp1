@@ -16,7 +16,11 @@ g_tests_ran = 0
 g_passed_tests = 0
 g_failed_tests = 0
 g_grid_hub_url = 'http://192.168.1.167:4444/wd/hub'
-g_app_base_url = 'http://192.168.1.174:8080'
+print(os.environ.get('GRID_ENV'))
+if os.environ.get('GRID_ENV') == 'STAGE':
+    g_app_base_url = 'http://192.168.1.177:8080'
+else:
+    g_app_base_url = 'http://192.168.1.174:8080'
 g_options = Options()
 g_options.AcceptInsecureCertificates = True
 g_driver = webdriver.Remote(
