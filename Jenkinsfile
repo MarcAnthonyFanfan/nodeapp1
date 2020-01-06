@@ -18,6 +18,12 @@ pipeline {
       }
     }
     // to-do: add testing
+    stage("Selenium Grid Testing") {
+      steps {
+        sh "echo 'Deploy to staging server'"
+        sh "echo 'Run Selenium Grid testing'"
+      }
+    }
     stage("Create Pull Request & Jira Issue (if [pr] is in commit message)") {
       when {
         not {
