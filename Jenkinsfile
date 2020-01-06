@@ -29,7 +29,7 @@ pipeline {
         }
       }
       steps {
-        // testing initial commit no pr (2)
+        // testing initial commit no pr (3)
         sh "echo 'in pull request stage'"
         //sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
         //sh "chmod +x ./create_issue.sh && ./create_issue.sh"
