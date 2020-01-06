@@ -18,7 +18,7 @@ pipeline {
       }
     }
     // to-do: add testing
-    stage("Create Pull Request & Jira Issue") {
+    stage("Create Pull Request & Jira Issue (if [pr] is in commit message)") {
       when {
         not {
           anyOf {
@@ -29,7 +29,6 @@ pipeline {
         }
       }
       steps {
-        // pr test
         sh "chmod +x ./pull_request.sh && ./pull_request.sh"
       }
     }
