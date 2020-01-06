@@ -18,10 +18,9 @@ pipeline {
       }
     }
     // to-do: add testing
-    def commit = sh(returnStdout: true, script: 'git log -1 --pretty=%B | cat')
-    def matcher = (commit =~ '.*(/pr*).*')
     stage("Create Pull Request & Jira Issue") {
       when {
+        changelog ".*^\\[pr\\] .+$"
         not {
           anyOf {
             branch "master";
@@ -29,11 +28,9 @@ pipeline {
           }
         }
       }
-      if (matcher) {
-        steps {
-          sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
-          sh "chmod +x ./create_issue.sh && ./create_issue.sh"
-        }
+      steps {
+        sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
+        sh "chmod +x ./create_issue.sh && ./create_issue.sh"
       }
     }
   }
