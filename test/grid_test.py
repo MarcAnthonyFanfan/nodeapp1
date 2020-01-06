@@ -16,9 +16,9 @@ g_tests_ran = 0
 g_passed_tests = 0
 g_failed_tests = 0
 g_grid_hub_url = 'http://192.168.1.167:4444/wd/hub'
-if os.environ.get('NODEAPP1_STAGE') is None:
+if os.environ.get('GRID_ENV') is None:
     g_app_base_url = 'http://192.168.1.174:8080'
-else:
+elif os.environ.get('GRID_ENV') == 'STAGE':
     g_app_base_url = 'http://192.168.1.177:8080'
 g_options = Options()
 g_options.AcceptInsecureCertificates = True
