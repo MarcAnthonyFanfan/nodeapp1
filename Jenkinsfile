@@ -20,7 +20,7 @@ pipeline {
     // to-do: add testing
     stage("Create Pull Request & Jira Issue") {
       when {
-        changelog ".*^\\[pr\\] .+$"
+        changelog ".*\[pr\].*"
         not {
           anyOf {
             branch "master";
