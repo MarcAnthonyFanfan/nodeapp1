@@ -25,7 +25,7 @@ pipeline {
             branch "master";
             branch pattern: "PR-\\d+", comparator: "REGEXP";
             changelog "^((?!\\[pr\\]).)*\$"
-            changelog "^(?![\\s\\S])"
+            changelog ""
           }
         }
       }
