@@ -24,15 +24,13 @@ pipeline {
           anyOf {
             branch "master";
             branch pattern: "PR-\\d+", comparator: "REGEXP";
-            changelog "^((?!\\[pr\\]).)*\$"
-            changelog "^(?![\\s\\S])"
+            //changelog "^((?!\\[pr\\]).)*\$"
           }
         }
       }
       steps {
-        // testing initial commit no pr
-        sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
-        sh "chmod +x ./create_issue.sh && ./create_issue.sh"
+        // pr test
+        sh "chmod +x ./pull_request.sh && ./pull_request.sh"
       }
     }
   }
