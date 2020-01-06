@@ -29,8 +29,9 @@ pipeline {
         }
       }
       steps {
-        sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
-        sh "chmod +x ./create_issue.sh && ./create_issue.sh"
+        sh "echo '[pr] found''"
+        //sh "hub pull-request --no-edit --base=master --head=${BRANCH_NAME} > pull_request_url.txt"
+        //sh "chmod +x ./create_issue.sh && ./create_issue.sh"
       }
     }
   }
