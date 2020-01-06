@@ -29,6 +29,7 @@ pipeline {
         }
       }
       steps {
+        // pr test
         sh "chmod +x ./pull_request.sh && ./pull_request.sh"
       }
     }
