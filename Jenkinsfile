@@ -17,7 +17,7 @@ pipeline {
         sh "rm -rf .git/; rm .gitignore; rm -rf tmp/; git clone --no-checkout https://github.com/MarcAnthonyFanfan/nodeapp1 tmp && mv tmp/.git . && rmdir tmp && git checkout -f ${BRANCH_NAME}"
       }
     }
-    // to-do: add testing
+    // to-do: complete testing stage
     stage("Selenium Grid Testing") {
       steps {
         sh "echo 'Deploy to staging server'"
