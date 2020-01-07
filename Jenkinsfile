@@ -18,7 +18,8 @@ pipeline {
           anyOf {
             branch "master";
             branch pattern: "PR-\\d+", comparator: "REGEXP";
-            //changelog "^((?!\\[pr\\]).)*\$"
+            // Regex does not work on first build
+            // changelog "^((?!\\[pr\\]).)*\$"
           }
         }
       }
