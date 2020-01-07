@@ -19,6 +19,7 @@ pipeline {
     }
     stage("Selenium Grid Testing on Staging Server") {
       steps {
+        // Testing PR merge
         sh "echo 'Deploying ${BRANCH_NAME} to STAGE environment...'"
         sh "ssh mfanx2@192.168.1.177 'cd ~/nodeapp1/; pkill node; git fetch; git checkout ${BRANCH_NAME}; git reset --hard; git pull --force; node app.js > /home/mfanx2/node.log 2>&1 &'"
         sh "echo 'Testing STAGE environment with Selenium Grid'"
