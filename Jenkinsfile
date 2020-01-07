@@ -4,19 +4,6 @@ pipeline {
     skipDefaultCheckout true
   }
   stages {
-    stage("Git Checkout Branch (Head attached)") {
-      when {
-        not {
-          anyOf {
-            branch "master";
-            branch pattern: "PR-\\d+", comparator: "REGEXP"
-          }
-        }
-      }
-      steps {
-        sh "rm -rf .git/; rm -f .gitignore; rm -rf tmp/; git clone --no-checkout https://github.com/MarcAnthonyFanfan/nodeapp1 tmp && mv tmp/.git . && rmdir tmp && git checkout -f ${BRANCH_NAME}"
-      }
-    }
     stage("Selenium Grid Testing on Staging Server") {
       steps {
         sh "echo 'Deploying ${BRANCH_NAME} to STAGE environment...'"
@@ -36,6 +23,7 @@ pipeline {
         }
       }
       steps {
+        sh "rm -rf .git/; rm -f .gitignore; rm -rf tmp/; git clone --no-checkout https://github.com/MarcAnthonyFanfan/nodeapp1 tmp && mv tmp/.git . && rmdir tmp && git checkout -f ${BRANCH_NAME}"
         sh "chmod +x ./pull_request.sh && ./pull_request.sh"
       }
     }
