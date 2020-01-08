@@ -18,8 +18,8 @@ pipeline {
           anyOf {
             branch "master";
             branch pattern: "PR-\\d+", comparator: "REGEXP";
-            // Regex does not work on first build
-            // changelog "^((?!\\[pr\\]).)*\$"
+            // Regex does not work on first build, that is why we still check in pull_request.sh
+            changelog "^((?!\\[pr\\]).)*\$"
           }
         }
       }
