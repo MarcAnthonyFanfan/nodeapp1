@@ -15,17 +15,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 // mysql setup
-/* changing setup for openshift
 var mysql = require('mysql');
 var con = mysql.createConnection({
     host: 'localhost',
-    user: 'node',
-    database: 'nodeapp'
-});
-*/
-var con = mysql.createConnection({
-    host: '127.0.0.1',
-    port: '3306',
     user: 'node',
     database: 'nodeapp'
 });
